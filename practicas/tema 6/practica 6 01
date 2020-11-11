@@ -1,0 +1,232 @@
+<!doctype html>
+<html>
+	<head>
+		<meta name="author" content="Daniel Ortega Pastor" />
+		<meta charset="utf-8" />
+		<title>Práctica 6-01 </title>
+		<style type="text/css">
+			#user{
+				float:right;
+				color:#FFD13C;
+				font-size:12pt;
+				font-family:Times New Roman;
+				position:relative;
+				margin-right:5%;
+				margin-top:-2%;
+			}
+			body {
+				background-color:blue;
+				color:white;
+				font-family:calibri;
+				font-size:10pt;
+				line-height:1.75em;
+			}
+			#local{
+				width:350px;
+				float:right;
+				margin-top:-180px;
+				margin-right:50px;
+			}
+			#comAut{
+				float:right;
+				margin-top:-180px;
+			}
+			#defi{
+				margin-top:10%;
+				margin-left:2%;
+			}
+			#coches{
+				margin-top:50px;
+				margin-left:2%;
+			}
+			#registrar{
+				display:none;
+				background-color:#ABF6D8;
+				color:black;
+				width:300px;
+				height:100px;
+				border-style:solid;
+				padding-left:2px;
+				padding-top:2px;
+			}
+			#entrar{
+				display:none;
+				background-color:#FF9D81;
+				color:black;
+				width:300px;
+				height:100px;
+				border-style:solid;
+				padding-left:2px;
+				padding-top:2px;
+			}
+			
+		</style>
+		<script>
+			function registro(){
+				document.getElementById("registrar").style.display="block";
+				document.getElementById("entrar").style.display="none";
+			}
+			
+			function cancel(){
+				document.getElementById("registrar").style.display="none";
+			}
+			
+			function entrar(){
+				document.getElementById("entrar").style.display="block";
+				document.getElementById("registrar").style.display="none";
+			}
+			
+			function cancelE(){
+				document.getElementById("entrar").style.display="none";
+			}
+			
+			var letras="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+			var letrasN="1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";	
+			var letrasNS="1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_";	
+			function usuario(){
+			document.getElementById("usuario").style.backgroundColor="#FF4C4C";
+				var x=document.getElementById("usuario").value;
+				if((x.length>=8)&&(x.length<=12)){
+					var a=letras.includes(x.charAt(0));
+					var b=letras.includes(x.charAt(1));
+					var c=letras.includes(x.charAt(2));
+					if(a&&b&&c){
+						var aux=0;
+						for(var i=0;i<x.length-3;i++){
+							if(!letrasN.includes(x.charAt(i+3))){
+								aux=-1;
+							}
+						}
+						if(aux!=-1){
+							contrasena();
+						}
+					}
+				}
+			}
+			
+			function contrasena(){
+				document.getElementById("usuario").style.backgroundColor="#FFFFFF";
+				document.getElementById("pass").style.backgroundColor="#FF4C4C";
+				var x=document.getElementById("pass").value;
+				var y=document.getElementById("usuario").value;
+					if((x.length>=8)&&(x.length<=14)){
+						var a=letras.includes(x.charAt(0));
+						var b=letras.includes(x.charAt(1));
+						var c=letrasN.includes(x.charAt(x.length-1));
+						if(a&&b&&c){
+							var aux=0;
+							for(var i=0;i<x.length-3;i++){
+								if(!letrasNS.includes(x.charAt(i+2))){
+									aux=-1;
+								}
+							}
+							if(aux!=-1){
+								document.getElementById("pass").style.backgroundColor="#FFFFFF";
+								document.cookie="username="+y+"; password="+x+"; path=/;";
+								alert(document.cookie);
+								document.getElementById("usuario").value="";
+								document.getElementById("pass").value="";
+								cancel();
+							}
+						}
+					}
+			}
+			
+			function usuarioE(){
+				var cadena=document.cookie;
+				var posicion=cadena.indexOf("username=");
+				var pos2=cadena.indexOf("=",posicion+1);
+				var pos3=cadena.indexOf(";",pos2+1);
+				if(pos3==-1){
+					pos3=cadena.length;
+				}
+				var usu=cadena.substring(pos2+1,pos3);
+				
+				var posicionP=cadena.indexOf("password=");
+				var pos2P=cadena.indexOf("=",posicionP+1);
+				var pos3P=cadena.indexOf(";",pos2P+1);
+				if(pos3P==-1){
+					pos3P=cadena.length;
+				}
+				var pass=cadena.substring(pos2P+1,pos3P);
+				
+				alert(usu+" "+pass);
+				
+			}
+		</script>
+	</head>
+	<body>
+	</br>
+	<div id="user"><h1>Usuario</h1>
+	<input onclick="registro()" type="button" value="Registrarse" id="log"/>
+	<input onclick="entrar()" type="button" value="Entrar" id="log"/></br>
+	
+	<div id="registrar"><a>Usuario</a><input type="text" value="" id="usuario"></input>
+	</br><a>Contraseña</a><input type="password" value="" id="pass"></input></br>
+	</br><input onclick="usuario()" type="button" value="Aceptar" id="aceptar"/>
+	<input onclick="cancel()" type="button" value="Cancelar" id="cancelar"/></div>
+	
+	<div id="entrar"><a>Usuario</a><input type="text" value="" id="usuarioE"></input>
+	</br><a>Contraseña</a><input type="password" value="" id="passE"></input></br>
+	</br><input onclick="usuarioE()" type="button" value="Aceptar" id="aceptar"/>
+	<input onclick="cancelE()" type="button" value="Cancelar" id="cancelarE"/></div>
+	</div>
+				<form>
+				<div id="defi"><h2>Definiciones</h2>
+					<label for="palabra">Palabra</label>
+					<input type="text" name="palabra"/> <br />
+					<label for="concepto">Concepto</label>
+					<input type="text" name="concepto" /> <br />
+					<input id="definicion" type="button" value="Añadir Definición" name="definicion" /> <br />
+					<h4>Lista de Definiciones</h4>
+				</div>
+				<div id="local"><h2>Nombres de Localidades</h2>
+					<label for="localidad">Localidad</label>
+					<input type="text" name="localidad"/> <br />
+					<input id="coche" type="button" value="Añadir Localidad" name="localidadA" /> <br />
+					<h4>Lista de Localidades ordenadas</h4>
+				</div>
+				<div id="coches"><h2>Listado de Coches</h2>
+					<label for="marca">Marca</label>
+					<input type="text" name="marca"/> <br />
+					<label for="modelo">Modelo</label>
+					<input type="text" name="modelo" /> <br />
+					<label for="precio">Precio</label>
+					<input type="text" name="precio" /> <br />
+					<input id="coche" type="button" value="Añadir Coche" name="coche" /> <br />
+				</div></br></br>
+				<div id="comAut"><h2>Comunidades Autónomas</h2>
+				<select name="comun" size="1" >
+				<option></option>
+				<option>Asturias</option>
+				<option>Andalucía</option>
+				<option>Aragón</option>
+				<option>Canarias</option>
+				<option>Cantabria</option>
+				<option>Castilla La Mancha</option>
+				<option>Castilla y León</option>
+				<option>Cataluña</option>
+				<option>Comunidad de Madrid</option>
+				<option>Comunidad Valenciana</option>
+				<option>Extremadura</option>
+				<option>Galicia</option>
+				<option>Islas Baleares</option>
+				<option>La Rioja</option>
+				<option>Murcia</option>
+				<option>Navarra</option>
+				<option>País Vasco</option>
+				<option>Murcia</option>
+				</select>
+					<label for="modelo">Provincias</label>
+					<input type="text" name="modelo" /> <br />
+					<input id="coche" type="button" value="Añadir Coche" name="coche" /> <br />
+					<h4>Comentario sobre la comunidad autónoma</h4>
+				</div>
+			<div><h2>Mensajes</h2>
+				<form>
+					<input type="button" name="mensaje" value="Añadir Mensaje"></input>
+				</form>
+			</div>
+		</form>
+	</body>
+</html>
